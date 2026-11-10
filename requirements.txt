@@ -1,0 +1,9 @@
+# Air Writing - runtime requirements (Python 3.10-3.12, 64-bit)
+mediapipe>=0.10.14
+opencv-contrib-python>=4.8
+numpy>=1.23
+
+# Optional:
+#   pillow      - use installed TrueType fonts when retraining, and make GIFs with tools/simulate.py
+#   matplotlib  - training plots (already installed together with mediapipe)
+#   pytest      - run the test suite:  python -m pytest tests

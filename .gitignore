@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# created when the app runs
+outputs/
+user_data/
+models/hand_landmarker.task
+models/*.part

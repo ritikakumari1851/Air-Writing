@@ -1,0 +1,24 @@
+flowchart TB
+    subgraph TRACK["1 - Track and draw (every frame, ~30 fps)"]
+        direction LR
+        CAM["Webcam frame<br/>(mirrored)"] --> MP["MediaPipe<br/>Hand Landmarker<br/>21 landmarks"]
+        MP --> GES{"Which fingers<br/>are up?"}
+        GES -- "index only" --> PEN["Pen down: fingertip<br/>+ One Euro filter"]
+        PEN --> CAN["Canvas<br/>vector strokes, eraser, undo<br/>(writing stays until cleared)"]
+        GES -- "index + middle" --> HOV["Pen up:<br/>move without drawing"]
+        GES -- "fingertip held<br/>on a toolbar button" --> BTN["Press the button<br/>(colour, erase, space...)"]
+        GES -- "open palm (hold)" --> CLR["Clear the screen"]
+    end
+    subgraph READ["2 - Read (after a 1.5 s pause, or a fist)"]
+        direction LR
+        SPL["Split into characters<br/>fit each into 28x28<br/>(like MNIST)"] --> CNN["NumPy CNN<br/>36 classes: 0-9, A-Z"]
+        CNN --> CTX["Context fix<br/>0/O 1/I 5/S 2/Z 8/B"] --> TXT["Text bar<br/>S = save to outputs/"]
+    end
+    TRACK -- "strokes" --> READ
+
+    classDef io fill:#e8f1fb,stroke:#4a78b5,color:#1b2b40
+    classDef step fill:#f6f6f6,stroke:#999,color:#222
+    classDef ml fill:#fdf0e1,stroke:#c98a3d,color:#3d2a12
+    class CAM,TXT io
+    class MP,GES,PEN,HOV,BTN,CLR,CAN,SPL,CTX step
+    class CNN ml
